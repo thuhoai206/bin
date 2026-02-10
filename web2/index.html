@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Chúc Mừng Năm Mới 2026</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:url("nammoi.jpg.jpg") no-repeat center center/cover;
+    height:100vh;
+    overflow:hidden;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+.box{
+    position:absolute;
+    bottom:60px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(255,255,255,0.95);
+    padding:40px;
+    border-radius:20px;
+    width:700px;
+    text-align:center;
+}
+
+h2{
+    font-size:36px;   /* 🔥 CHỮ TIÊU ĐỀ TO HƠN */
+    margin-bottom:20px;
+    color:red;
+}
+
+input{
+    width:90%;
+    padding:18px;
+    font-size:26px;
+    margin-bottom:20px;
+    border-radius:12px;
+}
+
+input::placeholder{
+    font-size:22px;
+}
+
+button{
+    padding:14px 35px;
+    font-size:22px;
+    border:none;
+    border-radius:10px;
+    background:red;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:darkred;
+}
+
+#result{
+    margin-top:20px;
+    display:none;
+    font-size:26px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<audio id="boomSound" src="firework.mp3" preload="auto"></audio>
+
+<div class="box">
+<h2>🎊 Chúc Mừng Năm Mới 2026 🎊</h2>
+
+<input type="text" id="name" placeholder="Nhập tên của bạn">
+<br>
+<button onclick="chucTet()">Nhận lời chúc</button>
+
+<div id="result">
+<h3 id="message"></h3>
+</div>
+</div>
+
+<script>
+let canvas = document.getElementById("fireworks");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+let fireworkInterval;
+
+function createFirework() {
+
+    let sound = document.getElementById("boomSound");
+    let clone = sound.cloneNode();
+    clone.volume = 1;
+    clone.play();
+
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height / 2;
+
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            angle: Math.random() * 2 * Math.PI,
+            speed: Math.random() * 8 + 5,
+            length: Math.random() * 30 + 20,
+            color: "hsl(" + Math.random()*360 + ",100%,50%)"
+        });
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, index) => {
+
+        let vx = Math.cos(p.angle) * p.speed;
+        let vy = Math.sin(p.angle) * p.speed;
+
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - vx * (p.length/10), p.y - vy * (p.length/10));
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        p.x += vx;
+        p.y += vy;
+        p.speed *= 0.95;
+
+        if (p.speed < 0.5) {
+            particles.splice(index, 1);
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+function chucTet() {
+
+    let name = document.getElementById("name").value;
+
+    if (name.trim() === "") {
+        alert("Vui lòng nhập tên!");
+        return;
+    }
+
+    let loiChuc = [
+        "năm mới an khang thịnh vượng 🎆",
+        "luôn mạnh khỏe và thành công rực rỡ 🌟",
+        "học tập tiến bộ, tiền vào như nước 💰",
+        "gia đình hạnh phúc, vạn sự như ý 🎉",
+        "mọi điều ước đều thành hiện thực 🎯"
+    ];
+
+    let randomIndex = Math.floor(Math.random() * loiChuc.length);
+
+    document.getElementById("message").innerText =
+        "🎆 Chúc " + name + " " + loiChuc[randomIndex] + " 🎆";
+
+    document.getElementById("result").style.display = "block";
+
+    fireworkInterval = setInterval(createFirework, 700);
+
+    setTimeout(() => {
+        clearInterval(fireworkInterval);
+    }, 20000);
+}
+</script>
+
+</body>
+</html>

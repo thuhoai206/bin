@@ -2,7 +2,10 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CHỐNG ZOOM MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <title>Chúc Mừng Năm Mới 2026</title>
 
 <style>
@@ -13,14 +16,22 @@
     font-family:Arial, Helvetica, sans-serif;
 }
 
+html, body{
+    height:100%;
+}
+
 body{
     background-image:url("nammoi.jpg.jpg");
     background-size:cover;
-    background-position:center;
+    background-position:center center;
     background-repeat:no-repeat;
-    height:100vh;
+
+    min-height:100vh;
+    min-height:100dvh; /* chuẩn mobile mới */
+
     overflow:hidden;
     position:relative;
+    touch-action:manipulation;
 }
 
 /* Lớp làm tối nhẹ */
@@ -60,7 +71,7 @@ canvas{
 
 /* Tiêu đề */
 h1{
-    font-size:30px;
+    font-size:clamp(22px, 5vw, 30px);
     color:#e60000;
     margin-bottom:25px;
 }
@@ -93,24 +104,10 @@ button:hover{
 /* Lời chúc */
 #result{
     margin-top:20px;
-    font-size:22px;
+    font-size:clamp(16px,4vw,22px);
     font-weight:bold;
     display:none;
     line-height:1.6;
-}
-
-/* Responsive */
-@media(max-width:480px){
-    .container{
-        bottom:4%;
-        padding:25px 20px;
-    }
-    h1{
-        font-size:24px;
-    }
-    #result{
-        font-size:18px;
-    }
 }
 </style>
 </head>
@@ -145,7 +142,7 @@ window.addEventListener("resize", resizeCanvas);
 let particles = [];
 let interval;
 
-/* Tạo pháo hoa */
+/* Tạo pháo hoa + âm thanh */
 function createFirework(){
 
     const sound = new Audio("firework.mp3");
@@ -155,7 +152,7 @@ function createFirework(){
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
 
-    for(let i=0;i<120;i++){
+    for(let i=0;i<130;i++){
         particles.push({
             x:x,
             y:y,
@@ -192,7 +189,7 @@ function animate(){
 }
 animate();
 
-/* Hiện lời chúc (GIỮ NGUYÊN CỦA BẠN) */
+/* GIỮ NGUYÊN LỜI CHÚC CỦA BẠN */
 function showWish(){
 
     let name = document.getElementById("name").value.trim();

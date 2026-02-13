@@ -14,7 +14,7 @@
 }
 
 body{
-    background-image:url("./nammoi.jpg.jpg");
+    background-image:url("nammoi.jpg.jpg");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -27,7 +27,7 @@ body{
 .overlay{
     position:absolute;
     inset:0;
-    background:rgba(0,0,0,0.2);
+    background:rgba(0,0,0,0.25);
     z-index:0;
 }
 
@@ -36,6 +36,8 @@ canvas{
     position:absolute;
     top:0;
     left:0;
+    width:100%;
+    height:100%;
     z-index:1;
     pointer-events:none;
 }
@@ -43,12 +45,12 @@ canvas{
 /* Khung chính */
 .container{
     position:absolute;
-    bottom:8%;
+    bottom:6%;
     left:50%;
     transform:translateX(-50%);
     background:rgba(255,255,255,0.95);
-    width:90%;
-    max-width:600px;
+    width:92%;
+    max-width:650px;
     padding:35px 30px;
     border-radius:20px;
     text-align:center;
@@ -58,7 +60,7 @@ canvas{
 
 /* Tiêu đề */
 h1{
-    font-size:28px;
+    font-size:30px;
     color:#e60000;
     margin-bottom:25px;
 }
@@ -66,8 +68,8 @@ h1{
 /* Input */
 input{
     width:100%;
-    padding:16px;
-    font-size:20px;
+    padding:18px;
+    font-size:22px;
     border-radius:12px;
     border:1px solid #ccc;
     margin-bottom:20px;
@@ -75,7 +77,7 @@ input{
 
 /* Button */
 button{
-    padding:14px 30px;
+    padding:14px 35px;
     font-size:18px;
     border:none;
     border-radius:10px;
@@ -94,16 +96,20 @@ button:hover{
     font-size:22px;
     font-weight:bold;
     display:none;
+    line-height:1.6;
 }
 
 /* Responsive */
 @media(max-width:480px){
     .container{
-        bottom:5%;
+        bottom:4%;
         padding:25px 20px;
     }
     h1{
-        font-size:22px;
+        font-size:24px;
+    }
+    #result{
+        font-size:18px;
     }
 }
 </style>
@@ -112,7 +118,6 @@ button:hover{
 <body>
 
 <div class="overlay"></div>
-
 <canvas id="fireworks"></canvas>
 
 <div class="container">
@@ -150,12 +155,12 @@ function createFirework(){
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
 
-    for(let i=0;i<100;i++){
+    for(let i=0;i<120;i++){
         particles.push({
             x:x,
             y:y,
             angle:Math.random()*2*Math.PI,
-            speed:Math.random()*7+4,
+            speed:Math.random()*8+4,
             color:"hsl("+Math.random()*360+",100%,50%)"
         });
     }
@@ -170,13 +175,13 @@ function animate(){
         let vy = Math.sin(p.angle)*p.speed;
 
         ctx.beginPath();
-        ctx.arc(p.x,p.y,4,0,Math.PI*2);
+        ctx.arc(p.x,p.y,5,0,Math.PI*2);
         ctx.fillStyle = p.color;
         ctx.fill();
 
         p.x += vx;
         p.y += vy;
-        p.speed *= 0.96;
+        p.speed *= 0.95;
 
         if(p.speed < 0.5){
             particles.splice(index,1);
@@ -187,7 +192,7 @@ function animate(){
 }
 animate();
 
-/* Hiện lời chúc */
+/* Hiện lời chúc (GIỮ NGUYÊN CỦA BẠN) */
 function showWish(){
 
     let name = document.getElementById("name").value.trim();
@@ -197,11 +202,11 @@ function showWish(){
     }
 
     let wishes=[
-        "những lời chúc tốt đẹp nhất nhân dịp năm mới. Chúc một năm tràn đầy sức khỏe để thực hiện mọi dự định, đủ bình an để vượt qua mọi thử thách và đủ yêu thương để cuộc sống luôn ấm áp. Mong rằng mỗi ngày trôi qua đều là một ngày đáng nhớ, mỗi bước đi đều vững vàng và mỗi ước mơ đều dần trở thành hiện thực. 🎆",
-        "năm mới đến mang theo hy vọng mới. Chúc bạn luôn giữ được niềm tin vào bản thân, giữ được sự lạc quan trong cuộc sống và giữ được những người yêu thương bên cạnh mình. Dù năm cũ có bao nhiêu điều chưa trọn vẹn, hãy xem đó là bài học để bước sang năm mới mạnh mẽ và trưởng thành hơn. Chúc bạn một năm an khang, hạnh phúc và thành công rực rỡ. 🌟",
-        "bước sang năm mới, có thật nhiều sức khỏe để theo đuổi những điều mình yêu thích, có đủ kiên nhẫn để vượt qua những thử thách và có đủ niềm tin để không bỏ cuộc giữa chừng. Mong rằng năm nay sẽ là một năm của những bước tiến mới, những thành công mới và những kỷ niệm đẹp sẽ theo ta suốt chặng đường phía trước.💰",
-        "và gia đình một năm tràn đầy sức khỏe, bình an và hạnh phúc. Mong rằng mọi kế hoạch trong công việc đều thuận lợi, sự nghiệp ngày càng phát triển vững chắc, tài lộc dồi dào và cuộc sống luôn ấm êm, viên mãn. Chúc gia đình luôn sum vầy, yêu thương và cùng nhau đón thật nhiều niềm vui trong năm mới. 🎉",
-        "cùng gia đình một năm mới an khang, thịnh vượng và hạnh phúc viên mãn. Mong rằng mỗi ngày đều tràn đầy năng lượng tích cực, công việc thuận lợi, sự nghiệp thăng tiến và tài chính ngày càng ổn định. Chúc mái ấm gia đình luôn sum vầy, yêu thương và gắn bó. 🎯"
+"những lời chúc tốt đẹp nhất nhân dịp năm mới. Chúc một năm tràn đầy sức khỏe để thực hiện mọi dự định, đủ bình an để vượt qua mọi thử thách và đủ yêu thương để cuộc sống luôn ấm áp. Mong rằng mỗi ngày trôi qua đều là một ngày đáng nhớ, mỗi bước đi đều vững vàng và mỗi ước mơ đều dần trở thành hiện thực. 🎆",
+"năm mới đến mang theo hy vọng mới. Chúc bạn luôn giữ được niềm tin vào bản thân, giữ được sự lạc quan trong cuộc sống và giữ được những người yêu thương bên cạnh mình. Dù năm cũ có bao nhiêu điều chưa trọn vẹn, hãy xem đó là bài học để bước sang năm mới mạnh mẽ và trưởng thành hơn. Chúc bạn một năm an khang, hạnh phúc và thành công rực rỡ. 🌟",
+"bước sang năm mới, có thật nhiều sức khỏe để theo đuổi những điều mình yêu thích, có đủ kiên nhẫn để vượt qua những thử thách và có đủ niềm tin để không bỏ cuộc giữa chừng. Mong rằng năm nay sẽ là một năm của những bước tiến mới, những thành công mới và những kỷ niệm đẹp sẽ theo ta suốt chặng đường phía trước.💰",
+"và gia đình một năm tràn đầy sức khỏe, bình an và hạnh phúc. Mong rằng mọi kế hoạch trong công việc đều thuận lợi, sự nghiệp ngày càng phát triển vững chắc, tài lộc dồi dào và cuộc sống luôn ấm êm, viên mãn. Chúc gia đình luôn sum vầy, yêu thương và cùng nhau đón thật nhiều niềm vui trong năm mới. 🎉",
+"cùng gia đình một năm mới an khang, thịnh vượng và hạnh phúc viên mãn. Mong rằng mỗi ngày đều tràn đầy năng lượng tích cực, công việc thuận lợi, sự nghiệp thăng tiến và tài chính ngày càng ổn định. Chúc mái ấm gia đình luôn sum vầy, yêu thương và gắn bó. 🎯"
     ];
 
     let random=Math.floor(Math.random()*wishes.length);

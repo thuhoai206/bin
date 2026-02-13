@@ -2,148 +2,184 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chúc Mừng Năm Mới 2026</title>
 
 <style>
-body{
+*{
+    box-sizing:border-box;
     margin:0;
-    font-family:Arial;
-    background:url("nammoi.jpg.jpg") no-repeat center center/cover;
-    height:100vh;
-    overflow:hidden;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
+body{
+    background-image:url("./nammoi.jpg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    height:100vh;
+    overflow:hidden;
+    position:relative;
+}
+
+/* Lớp làm tối nhẹ */
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.2);
+    z-index:0;
+}
+
+/* Canvas pháo hoa */
 canvas{
-    position:fixed;
+    position:absolute;
     top:0;
     left:0;
+    z-index:1;
     pointer-events:none;
 }
 
-.box{
+/* Khung chính */
+.container{
     position:absolute;
-    bottom:60px;
+    bottom:8%;
     left:50%;
     transform:translateX(-50%);
     background:rgba(255,255,255,0.95);
-    padding:40px;
-    border-radius:20px;
-    width:700px;
-    text-align:center;
-}
-
-h2{
-    font-size:36px;   /* 🔥 CHỮ TIÊU ĐỀ TO HƠN */
-    margin-bottom:20px;
-    color:red;
-}
-
-input{
     width:90%;
-    padding:18px;
-    font-size:26px;
-    margin-bottom:20px;
+    max-width:600px;
+    padding:35px 30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    z-index:2;
+}
+
+/* Tiêu đề */
+h1{
+    font-size:28px;
+    color:#e60000;
+    margin-bottom:25px;
+}
+
+/* Input */
+input{
+    width:100%;
+    padding:16px;
+    font-size:20px;
     border-radius:12px;
+    border:1px solid #ccc;
+    margin-bottom:20px;
 }
 
-input::placeholder{
-    font-size:22px;
-}
-
+/* Button */
 button{
-    padding:14px 35px;
-    font-size:22px;
+    padding:14px 30px;
+    font-size:18px;
     border:none;
     border-radius:10px;
-    background:red;
+    background:#e60000;
     color:white;
     cursor:pointer;
 }
 
 button:hover{
-    background:darkred;
+    background:#b30000;
 }
 
+/* Lời chúc */
 #result{
     margin-top:20px;
-    display:none;
-    font-size:26px;
+    font-size:22px;
     font-weight:bold;
+    display:none;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .container{
+        bottom:5%;
+        padding:25px 20px;
+    }
+    h1{
+        font-size:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<div class="overlay"></div>
+
 <canvas id="fireworks"></canvas>
 
-<audio id="boomSound" src="firework.mp3" preload="auto"></audio>
+<div class="container">
+    <h1>🎊 Chúc Mừng Năm Mới 2026 🎊</h1>
 
-<div class="box">
-<h2>🎊 Chúc Mừng Năm Mới 2026 🎊</h2>
+    <div id="formArea">
+        <input type="text" id="name" placeholder="Nhập tên của bạn">
+        <button onclick="showWish()">Nhận lời chúc</button>
+    </div>
 
-<input type="text" id="name" placeholder="Nhập tên của bạn">
-<br>
-<button onclick="chucTet()">Nhận lời chúc</button>
-
-<div id="result">
-<h3 id="message"></h3>
-</div>
+    <div id="result"></div>
 </div>
 
 <script>
 let canvas = document.getElementById("fireworks");
 let ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 let particles = [];
-let fireworkInterval;
+let interval;
 
-function createFirework() {
+/* Tạo pháo hoa */
+function createFirework(){
 
-    let sound = document.getElementById("boomSound");
-    let clone = sound.cloneNode();
-    clone.volume = 1;
-    clone.play();
+    const sound = new Audio("firework.mp3");
+    sound.volume = 1;
+    sound.play().catch(()=>{});
 
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
 
-    for (let i = 0; i < 80; i++) {
+    for(let i=0;i<100;i++){
         particles.push({
-            x: x,
-            y: y,
-            angle: Math.random() * 2 * Math.PI,
-            speed: Math.random() * 8 + 5,
-            length: Math.random() * 30 + 20,
-            color: "hsl(" + Math.random()*360 + ",100%,50%)"
+            x:x,
+            y:y,
+            angle:Math.random()*2*Math.PI,
+            speed:Math.random()*7+4,
+            color:"hsl("+Math.random()*360+",100%,50%)"
         });
     }
 }
 
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+/* Animation */
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    particles.forEach((p, index) => {
-
-        let vx = Math.cos(p.angle) * p.speed;
-        let vy = Math.sin(p.angle) * p.speed;
+    particles.forEach((p,index)=>{
+        let vx = Math.cos(p.angle)*p.speed;
+        let vy = Math.sin(p.angle)*p.speed;
 
         ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - vx * (p.length/10), p.y - vy * (p.length/10));
-        ctx.strokeStyle = p.color;
-        ctx.lineWidth = 4;
-        ctx.stroke();
+        ctx.arc(p.x,p.y,4,0,Math.PI*2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
 
         p.x += vx;
         p.y += vy;
-        p.speed *= 0.95;
+        p.speed *= 0.96;
 
-        if (p.speed < 0.5) {
-            particles.splice(index, 1);
+        if(p.speed < 0.5){
+            particles.splice(index,1);
         }
     });
 
@@ -151,35 +187,37 @@ function animate() {
 }
 animate();
 
-function chucTet() {
+/* Hiện lời chúc */
+function showWish(){
 
-    let name = document.getElementById("name").value;
-
-    if (name.trim() === "") {
+    let name = document.getElementById("name").value.trim();
+    if(name===""){
         alert("Vui lòng nhập tên!");
         return;
     }
 
-    let loiChuc = [
-        "năm mới an khang thịnh vượng 🎆",
-        "luôn mạnh khỏe và thành công rực rỡ 🌟",
-        "học tập tiến bộ, tiền vào như nước 💰",
-        "gia đình hạnh phúc, vạn sự như ý 🎉",
-        "mọi điều ước đều thành hiện thực 🎯"
+    let wishes=[
+        "những lời chúc tốt đẹp nhất nhân dịp năm mới. Chúc một năm tràn đầy sức khỏe để thực hiện mọi dự định, đủ bình an để vượt qua mọi thử thách và đủ yêu thương để cuộc sống luôn ấm áp. Mong rằng mỗi ngày trôi qua đều là một ngày đáng nhớ, mỗi bước đi đều vững vàng và mỗi ước mơ đều dần trở thành hiện thực. 🎆",
+        "năm mới đến mang theo hy vọng mới. Chúc bạn luôn giữ được niềm tin vào bản thân, giữ được sự lạc quan trong cuộc sống và giữ được những người yêu thương bên cạnh mình. Dù năm cũ có bao nhiêu điều chưa trọn vẹn, hãy xem đó là bài học để bước sang năm mới mạnh mẽ và trưởng thành hơn. Chúc bạn một năm an khang, hạnh phúc và thành công rực rỡ. 🌟",
+        "bước sang năm mới, có thật nhiều sức khỏe để theo đuổi những điều mình yêu thích, có đủ kiên nhẫn để vượt qua những thử thách và có đủ niềm tin để không bỏ cuộc giữa chừng. Mong rằng năm nay sẽ là một năm của những bước tiến mới, những thành công mới và những kỷ niệm đẹp sẽ theo ta suốt chặng đường phía trước.💰",
+        "và gia đình một năm tràn đầy sức khỏe, bình an và hạnh phúc. Mong rằng mọi kế hoạch trong công việc đều thuận lợi, sự nghiệp ngày càng phát triển vững chắc, tài lộc dồi dào và cuộc sống luôn ấm êm, viên mãn. Chúc gia đình luôn sum vầy, yêu thương và cùng nhau đón thật nhiều niềm vui trong năm mới. 🎉",
+        "cùng gia đình một năm mới an khang, thịnh vượng và hạnh phúc viên mãn. Mong rằng mỗi ngày đều tràn đầy năng lượng tích cực, công việc thuận lợi, sự nghiệp thăng tiến và tài chính ngày càng ổn định. Chúc mái ấm gia đình luôn sum vầy, yêu thương và gắn bó. 🎯"
     ];
 
-    let randomIndex = Math.floor(Math.random() * loiChuc.length);
+    let random=Math.floor(Math.random()*wishes.length);
 
-    document.getElementById("message").innerText =
-        "🎆 Chúc " + name + " " + loiChuc[randomIndex] + " 🎆";
+    document.getElementById("result").innerHTML=
+        "🎆 Chúc <span style='color:#e60000'>"+name+
+        "</span> "+wishes[random]+" 🎆";
 
-    document.getElementById("result").style.display = "block";
+    document.getElementById("result").style.display="block";
+    document.getElementById("formArea").style.display="none";
 
-    fireworkInterval = setInterval(createFirework, 700);
+    interval=setInterval(createFirework,700);
 
-    setTimeout(() => {
-        clearInterval(fireworkInterval);
-    }, 20000);
+    setTimeout(()=>{
+        clearInterval(interval);
+    },20000);
 }
 </script>
 

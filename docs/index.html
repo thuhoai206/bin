@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- CHỐNG ZOOM MOBILE -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Chúc Mừng Năm Mới 2026</title>
 
@@ -17,21 +16,16 @@
 }
 
 html, body{
-    height:100%;
+    width:100%;
+    min-height:100svh; /* chuẩn mobile ổn định nhất */
 }
 
 body{
     background-image:url("nammoi.jpg.jpg");
     background-size:cover;
-    background-position:center center;
+    background-position:center;
     background-repeat:no-repeat;
-
-    min-height:100vh;
-    min-height:100dvh; /* chuẩn mobile mới */
-
-    overflow:hidden;
     position:relative;
-    touch-action:manipulation;
 }
 
 /* Lớp làm tối nhẹ */
@@ -45,8 +39,7 @@ body{
 /* Canvas pháo hoa */
 canvas{
     position:absolute;
-    top:0;
-    left:0;
+    inset:0;
     width:100%;
     height:100%;
     z-index:1;
@@ -80,7 +73,7 @@ h1{
 input{
     width:100%;
     padding:18px;
-    font-size:22px;
+    font-size:clamp(16px,4vw,22px);
     border-radius:12px;
     border:1px solid #ccc;
     margin-bottom:20px;

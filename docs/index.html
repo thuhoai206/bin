@@ -2,7 +2,6 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Chúc Mừng Năm Mới 2026</title>
@@ -17,14 +16,15 @@
 
 html, body{
     width:100%;
-    min-height:100svh; /* chuẩn mobile ổn định nhất */
+    min-height:100svh;
 }
 
 body{
     background-image:url("nammoi.png");
-    background-size:cover;
-    background-position:center;
+    background-position:center center;
     background-repeat:no-repeat;
+    background-size:contain;   /* SỬA Ở ĐÂY */
+    background-color:#b30000;  /* nền đỏ phía sau */
     position:relative;
 }
 
@@ -135,9 +135,7 @@ window.addEventListener("resize", resizeCanvas);
 let particles = [];
 let interval;
 
-/* Tạo pháo hoa + âm thanh */
 function createFirework(){
-
     const sound = new Audio("firework.mp3");
     sound.volume = 1;
     sound.play().catch(()=>{});
@@ -156,7 +154,6 @@ function createFirework(){
     }
 }
 
-/* Animation */
 function animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -182,9 +179,7 @@ function animate(){
 }
 animate();
 
-/* GIỮ NGUYÊN LỜI CHÚC CỦA BẠN */
 function showWish(){
-
     let name = document.getElementById("name").value.trim();
     if(name===""){
         alert("Vui lòng nhập tên!");

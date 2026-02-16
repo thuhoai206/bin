@@ -19,7 +19,7 @@ html, body{
     height:100%;
 }
 
-/* BODY dùng flex để đẩy khung xuống đáy */
+/* BODY */
 body{
     background-image:url("nammoi.png");
     background-position:center center;
@@ -30,11 +30,11 @@ body{
     display:flex;
     justify-content:center;
     align-items:flex-end;
-    padding-bottom:80px;  /* tăng khoảng lộ nền */
+    padding-bottom:120px;  /* lộ nền nhiều hơn */
     position:relative;
 }
 
-/* Lớp làm tối nhẹ */
+/* Overlay */
 .overlay{
     position:absolute;
     inset:0;
@@ -42,7 +42,7 @@ body{
     z-index:0;
 }
 
-/* Canvas pháo hoa */
+/* Canvas */
 canvas{
     position:absolute;
     inset:0;
@@ -52,47 +52,47 @@ canvas{
     pointer-events:none;
 }
 
-/* Khung chính */
+/* ===== KHUNG NHỎ LẠI ===== */
 .container{
-    background:rgba(255,255,255,0.95);
-    width:92%;
-    max-width:650px;
-    padding:35px 30px;
-    border-radius:20px;
+    background:rgba(255,255,255,0.92);
+    width:88%;
+    max-width:480px;   /* nhỏ hơn */
+    padding:22px 18px; /* gọn lại */
+    border-radius:18px;
     text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    box-shadow:0 8px 25px rgba(0,0,0,0.35);
     z-index:2;
     transition:transform 0.6s ease, opacity 0.6s ease;
 }
 
-/* Khi nhập xong → trượt xuống */
+/* Sau khi nhập → trượt xuống ít thôi */
 .container.moveDown{
-    transform:translateY(120px);
+    transform:translateY(60px);
 }
 
-/* Tiêu đề */
+/* Tiêu đề nhỏ hơn */
 h1{
-    font-size:clamp(22px, 5vw, 30px);
+    font-size:clamp(18px, 4vw, 24px);
     color:#e60000;
-    margin-bottom:25px;
+    margin-bottom:18px;
 }
 
-/* Input */
+/* Input nhỏ hơn */
 input{
     width:100%;
-    padding:18px;
-    font-size:clamp(16px,4vw,22px);
-    border-radius:12px;
+    padding:14px;
+    font-size:clamp(14px,4vw,18px);
+    border-radius:10px;
     border:1px solid #ccc;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
 /* Button */
 button{
-    padding:14px 35px;
-    font-size:18px;
+    padding:10px 28px;
+    font-size:16px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     background:#e60000;
     color:white;
     cursor:pointer;
@@ -102,13 +102,13 @@ button:hover{
     background:#b30000;
 }
 
-/* Lời chúc */
+/* Lời chúc nhỏ lại */
 #result{
-    margin-top:20px;
-    font-size:clamp(16px,4vw,22px);
-    font-weight:bold;
+    margin-top:15px;
+    font-size:clamp(14px,3.8vw,18px);
+    font-weight:600;
     display:none;
-    line-height:1.6;
+    line-height:1.5;
 }
 </style>
 </head>
@@ -151,12 +151,12 @@ function createFirework(){
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
 
-    for(let i=0;i<130;i++){
+    for(let i=0;i<120;i++){
         particles.push({
             x:x,
             y:y,
             angle:Math.random()*2*Math.PI,
-            speed:Math.random()*8+4,
+            speed:Math.random()*6+3,
             color:"hsl("+Math.random()*360+",100%,50%)"
         });
     }
@@ -170,7 +170,7 @@ function animate(){
         let vy = Math.sin(p.angle)*p.speed;
 
         ctx.beginPath();
-        ctx.arc(p.x,p.y,5,0,Math.PI*2);
+        ctx.arc(p.x,p.y,4,0,Math.PI*2);
         ctx.fillStyle = p.color;
         ctx.fill();
 
@@ -211,10 +211,9 @@ function showWish(){
     document.getElementById("result").style.display="block";
     document.getElementById("formArea").style.display="none";
 
-    /* TRƯỢT XUỐNG */
     document.querySelector(".container").classList.add("moveDown");
 
-    interval=setInterval(createFirework,700);
+    interval=setInterval(createFirework,800);
 
     setTimeout(()=>{
         clearInterval(interval);
